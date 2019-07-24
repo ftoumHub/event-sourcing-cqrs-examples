@@ -31,7 +31,11 @@ public class ClientsResource {
     public Response post(@Valid ClientDto newClientDto) {
         EnrollClientCommand enrollClientCommand = new EnrollClientCommand(
             newClientDto.getName(), new Email(newClientDto.getEmail()));
+
+        // Rechercher dans la projection des clients si un client avec le même email existe déjà.
+
         Client client = clientService.process(enrollClientCommand);
+
         URI clientUri = fromResource(ClientResource.class).build(client.getId());
         return Response.created(clientUri).build();
     }

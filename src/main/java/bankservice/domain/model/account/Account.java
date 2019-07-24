@@ -36,7 +36,9 @@ public class Account extends Aggregate {
 
     public void withdraw(BigDecimal amount) {
         BigDecimal newBalance = balance.subtract(amount);
-        if (newBalance.signum() == -1) throw new NonSufficientFundsException(getId(), balance, amount);
+        if (newBalance.signum() == -1){
+            throw new NonSufficientFundsException(getId(), balance, amount);
+        }
         AccountWithdrawnEvent accountWithdrawnEvent = new AccountWithdrawnEvent(
                 getId(), now(UTC), getNextVersion(), amount, newBalance);
         applyNewEvent(accountWithdrawnEvent);

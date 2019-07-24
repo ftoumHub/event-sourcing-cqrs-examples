@@ -9,6 +9,8 @@ import bankservice.domain.model.EventStore;
 import bankservice.domain.model.OptimisticLockingException;
 import bankservice.domain.model.client.Client;
 import bankservice.service.Retrier;
+import com.google.common.eventbus.EventBus;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,17 +19,20 @@ import java.util.function.Consumer;
 public class ClientService {
 
     private final EventStore eventStore;
+
+    private final EventBus eventBus;
     private final Retrier conflictRetrier;
 
-    public ClientService(EventStore eventStore) {
+    public ClientService(EventStore eventStore, EventBus eventBus) {
         this.eventStore = checkNotNull(eventStore);
+        this.eventBus = checkNotNull(eventBus);
         int maxAttempts = 3;
         this.conflictRetrier = new Retrier(singletonList(OptimisticLockingException.class), maxAttempts);
     }
 
     public Client process(EnrollClientCommand command) {
         Client client = new Client(randomUUID(), command.getName(), command.getEmail());
-        storeEvents(client);
+        storeAndPublishEvents(client);
         return client;
     }
 
@@ -48,12 +53,13 @@ public class ClientService {
             Optional<Client> possibleClient = loadClient(clientId);
             Client client = possibleClient.orElseThrow(() -> new ClientNotFoundException(clientId));
             consumer.accept(client);
-            storeEvents(client);
+            storeAndPublishEvents(client);
             return client;
         });
     }
 
-    private void storeEvents(Client client) {
+    private void storeAndPublishEvents(Client client) {
         eventStore.store(client.getId(), client.getNewEvents(), client.getBaseVersion());
+        client.getNewEvents().forEach(eventBus::post);
     }
 }

@@ -29,7 +29,9 @@ public class AccountResource {
     @GET
     public Response get(@PathParam("id") UUIDParam accountId) {
         Optional<Account> possibleAccount = accountService.loadAccount(accountId.get());
-        if (!possibleAccount.isPresent()) return Response.status(NOT_FOUND).build();
+        if (!possibleAccount.isPresent()) {
+            return Response.status(NOT_FOUND).build();
+        }
         AccountDto accountDto = toDto(possibleAccount.get());
         return Response.ok(accountDto).build();
     }

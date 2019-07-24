@@ -44,7 +44,7 @@ public class InMemoryAccountsRepository implements AccountsRepository {
     }
 
     private Map<UUID, AccountProjection> newAccountsMap(AccountProjection accountProjection) {
-        return new HashMap<UUID, AccountProjection>() {
+        return new HashMap<>() {
             { put(accountProjection.getAccountId(), accountProjection); }
         };
     }

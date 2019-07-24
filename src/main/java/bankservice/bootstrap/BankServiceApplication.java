@@ -18,6 +18,9 @@ import bankservice.port.incoming.adapter.resources.clients.ClientResource;
 import bankservice.port.incoming.adapter.resources.clients.ClientsResource;
 import bankservice.port.incoming.adapter.resources.accounts.AccountsResource;
 import bankservice.port.outgoing.adapter.eventstore.InMemoryEventStore;
+import bankservice.projection.client.ClientListener;
+import bankservice.projection.client.ClientRepository;
+import bankservice.projection.client.InMemoryClientRepository;
 import bankservice.projection.clientaccounts.InMemoryAccountsRepository;
 import bankservice.projection.accounttransactions.InMemoryTransactionsRepository;
 import bankservice.projection.clientaccounts.AccountsListener;
@@ -72,7 +75,7 @@ public class BankServiceApplication extends Application<Configuration> {
         environment.jersey().register(new DepositsResource(accountService));
         environment.jersey().register(new WithdrawalsResource(accountService));
 
-        ClientService clientService = new ClientService(eventStore);
+        ClientService clientService = new ClientService(eventStore, eventBus);
         environment.jersey().register(new ClientsResource(clientService));
         environment.jersey().register(new ClientResource(clientService));
 
@@ -84,5 +87,8 @@ public class BankServiceApplication extends Application<Configuration> {
         AccountsRepository accountsRepository = new InMemoryAccountsRepository();
         eventBus.register(new AccountsListener(accountsRepository));
         environment.jersey().register(new ClientAccountsResource(accountsRepository));
+
+        ClientRepository clientRepository = new InMemoryClientRepository();
+        eventBus.register(new ClientListener(clientRepository));
     }
 }

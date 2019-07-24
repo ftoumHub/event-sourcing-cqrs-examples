@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class InMemoryAccountsRepositoryTest {
 
-    private AccountsRepository accountsRepository =
-            new InMemoryAccountsRepository();
+    private AccountsRepository accountsRepository = new InMemoryAccountsRepository();
 
     @Test
     void ignoreEventOutOfOrder() {
@@ -21,6 +20,7 @@ class InMemoryAccountsRepositoryTest {
         accountsRepository.save(new AccountProjection(accountId, clientId, ZERO, 1));
         accountsRepository.updateBalance(accountId, TEN, 3);
         accountsRepository.updateBalance(accountId, ONE, 2);
+
         assertThat(accountsRepository.getAccounts(clientId).get(0).getBalance(), equalTo(TEN));
     }
 }
