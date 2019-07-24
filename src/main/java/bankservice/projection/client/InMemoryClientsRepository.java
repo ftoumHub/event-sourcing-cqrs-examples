@@ -1,10 +1,11 @@
 package bankservice.projection.client;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemoryClientRepository implements ClientRepository {
+public class InMemoryClientsRepository implements ClientRepository {
 
     private Map<UUID, ClientProjection> clientProjections = new ConcurrentHashMap<>();
 
@@ -22,12 +23,19 @@ public class InMemoryClientRepository implements ClientRepository {
     }
 
     @Override
-    public ClientProjection getClient(UUID clientId) {
-        return null;
+    public Optional<ClientProjection> getClient(UUID clientId) {
+        ClientProjection clientProjection = clientProjections.get(clientId);
+
+        if (null != clientProjection){
+            return Optional.of(clientProjection);
+        }
+        return Optional.empty();
     }
 
     @Override
-    public ClientProjection getClientWithEmail(String email) {
-        return null;
+    public Optional<ClientProjection> getClientWithEmail(String email) {
+        return clientProjections.values().stream()
+                .filter(c -> email.equals(c.getEmail().getValue()))
+                .findAny();
     }
 }

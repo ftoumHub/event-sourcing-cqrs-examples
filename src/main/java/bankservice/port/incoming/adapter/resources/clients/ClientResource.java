@@ -32,6 +32,7 @@ public class ClientResource {
         Optional<Client> possibleClient = clientService.loadClient(clientId.get());
         if (!possibleClient.isPresent()) return Response.status(NOT_FOUND).build();
         ClientDto clientDto = toDto(possibleClient.get());
+
         return Response.ok(clientDto).build();
     }
 
@@ -40,6 +41,7 @@ public class ClientResource {
         UpdateClientCommand command = new UpdateClientCommand(
                 clientId.get(), clientDto.getName(), new Email(clientDto.getEmail()));
         clientService.process(command);
+
         return Response.noContent().build();
     }
 

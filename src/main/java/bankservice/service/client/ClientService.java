@@ -50,8 +50,8 @@ public class ClientService {
             throws ClientNotFoundException, OptimisticLockingException {
 
         return conflictRetrier.get(() -> {
-            Optional<Client> possibleClient = loadClient(clientId);
-            Client client = possibleClient.orElseThrow(() -> new ClientNotFoundException(clientId));
+            Client client = loadClient(clientId)
+                                .orElseThrow(() -> new ClientNotFoundException(clientId));
             consumer.accept(client);
             storeAndPublishEvents(client);
             return client;

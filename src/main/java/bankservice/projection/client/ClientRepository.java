@@ -1,5 +1,6 @@
 package bankservice.projection.client;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ClientRepository {
@@ -8,7 +9,7 @@ public interface ClientRepository {
 
     void updateEmail(UUID clientId, int version, String email);
 
-    ClientProjection getClient(UUID clientId);
+    Optional<ClientProjection> getClient(UUID clientId);
 
-    ClientProjection getClientWithEmail(String email);
+    Optional<ClientProjection> getClientWithEmail(String email);
 }

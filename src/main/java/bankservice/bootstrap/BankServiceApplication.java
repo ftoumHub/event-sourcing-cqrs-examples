@@ -20,7 +20,7 @@ import bankservice.port.incoming.adapter.resources.accounts.AccountsResource;
 import bankservice.port.outgoing.adapter.eventstore.InMemoryEventStore;
 import bankservice.projection.client.ClientListener;
 import bankservice.projection.client.ClientRepository;
-import bankservice.projection.client.InMemoryClientRepository;
+import bankservice.projection.client.InMemoryClientsRepository;
 import bankservice.projection.clientaccounts.InMemoryAccountsRepository;
 import bankservice.projection.accounttransactions.InMemoryTransactionsRepository;
 import bankservice.projection.clientaccounts.AccountsListener;
@@ -88,7 +88,7 @@ public class BankServiceApplication extends Application<Configuration> {
         eventBus.register(new AccountsListener(accountsRepository));
         environment.jersey().register(new ClientAccountsResource(accountsRepository));
 
-        ClientRepository clientRepository = new InMemoryClientRepository();
+        ClientRepository clientRepository = new InMemoryClientsRepository();
         eventBus.register(new ClientListener(clientRepository));
     }
 }

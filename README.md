@@ -119,11 +119,6 @@ Check the created account from the response 'Location' header
 #### More operations
 Go ahead and check the code! :)
 
-# Contributing
-If you would like to help making this project better, see the [CONTRIBUTING.md](CONTRIBUTING.md).  
-
-# Maintainers
-Send any other comments, flowers and suggestions to [André Schaffer](https://github.com/andreschaffer) and [Dan Eidmark](https://github.com/daneidmark).
-
-# License
-This project is distributed under the [MIT License](LICENSE).
+# Resources
+- [Event Sourcing: comprendre les bases d'un système évènementiel](https://blog.xebia.fr/2017/01/16/event-sourcing-comprendre-les-bases-dun-systeme-evenementiel/)
+- [Blog de Daniel Whittaker](http://danielwhittaker.me/2014/10/02/cqrs-step-step-guide-flow-typical-application/)
