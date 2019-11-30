@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/andreschaffer/event-sourcing-cqrs-examples.svg?branch=master)](https://travis-ci.org/andreschaffer/event-sourcing-cqrs-examples)
+[![Build Status](https://travis-ci.com/ftoumHub/event-sourcing-cqrs-examples.svg?branch=master)](https://travis-ci.com/ftoumHub/event-sourcing-cqrs-examples)
 [![Coverage Status](https://coveralls.io/repos/github/andreschaffer/event-sourcing-cqrs-examples/badge.svg?branch=master)](https://coveralls.io/github/andreschaffer/event-sourcing-cqrs-examples?branch=master)
 
 # Event Sourcing and CQRS Examples
