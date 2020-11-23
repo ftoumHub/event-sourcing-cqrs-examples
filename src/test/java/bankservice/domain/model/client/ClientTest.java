@@ -17,13 +17,12 @@ class ClientTest {
         UUID id = randomUUID();
         String name = "john";
         Email email = new Email("john@example.com");
-
         Client client = new Client(id, name, email);
 
-        List<Event> newEvents = client.getNewEvents();
-        assertThat(newEvents.size(), equalTo(1));
-        assertThat(newEvents.get(0), instanceOf(ClientEnrolledEvent.class));
-        ClientEnrolledEvent event = (ClientEnrolledEvent) newEvents.get(0);
+        assertThat(client.getNewEvents().size(), equalTo(1));
+        assertThat(client.getNewEvents().get(0), instanceOf(ClientEnrolledEvent.class));
+
+        ClientEnrolledEvent event = (ClientEnrolledEvent) client.getNewEvents().get(0);
         assertThat(event.getAggregateId(), equalTo(id));
         assertThat(event.getName(), equalTo(name));
         assertThat(event.getEmail(), equalTo(email));

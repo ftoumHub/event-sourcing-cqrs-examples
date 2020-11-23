@@ -1,6 +1,7 @@
 package bankservice.domain.model.account;
 
 import bankservice.domain.model.Event;
+import lombok.Getter;
 import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@Getter
 public class AccountWithdrawnEvent extends Event {
 
     private final BigDecimal amount;
@@ -20,11 +22,4 @@ public class AccountWithdrawnEvent extends Event {
         this.balance = checkNotNull(balance);
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
 }

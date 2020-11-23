@@ -38,7 +38,9 @@ public class ClientService {
 
     public Optional<Client> loadClient(UUID id) {
         List<Event> eventStream = eventStore.load(id);
-        if (eventStream.isEmpty()) return Optional.empty();
+        if (eventStream.isEmpty()) {
+            return Optional.empty();
+        }
         return Optional.of(new Client(id, eventStream));
     }
 
@@ -46,12 +48,9 @@ public class ClientService {
         process(command.getId(), c -> c.update(command.getName(), command.getEmail()));
     }
 
-    private Client process(UUID clientId, Consumer<Client> consumer)
-            throws ClientNotFoundException, OptimisticLockingException {
-
+    private Client process(UUID clientId, Consumer<Client> consumer) throws ClientNotFoundException, OptimisticLockingException {
         return conflictRetrier.get(() -> {
-            Client client = loadClient(clientId)
-                                .orElseThrow(() -> new ClientNotFoundException(clientId));
+            Client client = loadClient(clientId).orElseThrow(() -> new ClientNotFoundException(clientId));
             consumer.accept(client);
             storeAndPublishEvents(client);
             return client;

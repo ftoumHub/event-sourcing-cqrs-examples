@@ -2,6 +2,7 @@ package bankservice.domain.model.client;
 
 import bankservice.domain.model.Aggregate;
 import bankservice.domain.model.Event;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.joda.time.DateTime.now;
 import static org.joda.time.DateTimeZone.UTC;
 
+@Getter
 public class Client extends Aggregate {
 
     private String name;
@@ -19,10 +21,10 @@ public class Client extends Aggregate {
 
     public Client(UUID id, String name, Email email) {
         super(id);
-        validateName(name);
-        validateEmail(email);
-        ClientEnrolledEvent clientEnrolledEvent = new ClientEnrolledEvent(
-                id, now(UTC), getNextVersion(), name, email);
+        checkArgument(isNotBlank(name));
+        checkNotNull(email);
+
+        ClientEnrolledEvent clientEnrolledEvent = new ClientEnrolledEvent(id, now(UTC), getNextVersion(), name, email);
         applyNewEvent(clientEnrolledEvent);
     }
 
@@ -36,31 +38,14 @@ public class Client extends Aggregate {
         applyNewEvent(clientUpdatedEvent);
     }
 
-    @SuppressWarnings("unused")
     public void apply(ClientEnrolledEvent event) {
         this.name = event.getName();
         this.email = event.getEmail();
     }
 
-    @SuppressWarnings("unused")
     private void apply(ClientUpdatedEvent event) {
         this.name = event.getName();
         this.email = event.getEmail();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Email getEmail() {
-        return email;
-    }
-
-    private void validateName(String name) {
-        checkArgument(isNotBlank(name));
-    }
-
-    private void validateEmail(Email email) {
-        checkNotNull(email);
-    }
 }

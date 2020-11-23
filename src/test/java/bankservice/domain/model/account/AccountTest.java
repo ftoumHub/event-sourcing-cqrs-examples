@@ -25,6 +25,7 @@ class AccountTest {
 
         assertThat(newEvents.size(), equalTo(1));
         assertThat(newEvents.get(0), instanceOf(AccountOpenedEvent.class));
+
         AccountOpenedEvent event = (AccountOpenedEvent) newEvents.get(0);
         assertThat(event.getAggregateId(), equalTo(id));
         assertThat(event.getClientId(), equalTo(clientId));
@@ -33,7 +34,6 @@ class AccountTest {
         assertThat(account.getId(), equalTo(id));
         assertThat(account.getClientId(), equalTo(clientId));
         assertThat(account.getBalance(), equalTo(ZERO));
-
     }
 
     @Test

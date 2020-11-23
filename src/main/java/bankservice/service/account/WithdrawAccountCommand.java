@@ -1,25 +1,16 @@
 package bankservice.service.account;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+@Getter
+@RequiredArgsConstructor
 public class WithdrawAccountCommand {
 
     private final UUID id;
     private final BigDecimal amount;
 
-    public WithdrawAccountCommand(UUID id, BigDecimal amount) {
-        this.id = checkNotNull(id);
-        this.amount = checkNotNull(amount);
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
 }

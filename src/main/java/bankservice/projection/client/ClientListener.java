@@ -2,22 +2,22 @@ package bankservice.projection.client;
 
 import bankservice.domain.model.client.ClientEnrolledEvent;
 import com.google.common.eventbus.Subscribe;
+import lombok.RequiredArgsConstructor;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@RequiredArgsConstructor
 public class ClientListener {
 
-    private ClientRepository clientRepository;
-
-    public ClientListener(ClientRepository clientRepository) {
-        this.clientRepository = checkNotNull(clientRepository);
-    }
+    private final ClientRepository clientRepository;
 
     @Subscribe
-    @SuppressWarnings("unused")
     public void handle(ClientEnrolledEvent event) {
         ClientProjection tx = new ClientProjection(
-                event.getAggregateId(), event.getName(), event.getEmail(), event.getVersion());
+                event.getAggregateId(),
+                event.getName(),
+                event.getEmail(),
+                event.getVersion());
         clientRepository.save(tx);
     }
 }

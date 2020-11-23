@@ -2,6 +2,7 @@ package bankservice.domain.model.account;
 
 import bankservice.domain.model.Aggregate;
 import bankservice.domain.model.Event;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,6 +12,7 @@ import static java.math.BigDecimal.ZERO;
 import static org.joda.time.DateTime.now;
 import static org.joda.time.DateTimeZone.UTC;
 
+@Getter
 public class Account extends Aggregate {
 
     private BigDecimal balance;
@@ -58,11 +60,4 @@ public class Account extends Aggregate {
     @SuppressWarnings("unused")
     private void apply(AccountWithdrawnEvent event) { balance = event.getBalance(); }
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public UUID getClientId() {
-        return clientId;
-    }
 }
