@@ -8,6 +8,7 @@ import bankservice.domain.model.Event;
 import bankservice.domain.model.EventStore;
 import bankservice.domain.model.OptimisticLockingException;
 import bankservice.domain.model.client.Client;
+import bankservice.projection.client.ClientProjection;
 import bankservice.service.Retrier;
 import com.google.common.eventbus.EventBus;
 
@@ -30,6 +31,10 @@ public class ClientService {
         this.conflictRetrier = new Retrier(singletonList(OptimisticLockingException.class), maxAttempts);
     }
 
+    /**
+     * Si on essai d'ajouter un client avec un email existant on doit se faire jeter.
+     * ==> contrainte d'unicité à mettre ici ? {@link bankservice.projection.client.InMemoryClientsRepository#save(ClientProjection)}
+     */
     public Client process(EnrollClientCommand command) {
         Client client = new Client(randomUUID(), command.getName(), command.getEmail());
         storeAndPublishEvents(client);

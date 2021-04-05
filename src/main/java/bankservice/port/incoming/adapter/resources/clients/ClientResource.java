@@ -30,7 +30,9 @@ public class ClientResource {
     @GET
     public Response get(@PathParam("id") UUIDParam clientId) {
         Optional<Client> possibleClient = clientService.loadClient(clientId.get());
-        if (!possibleClient.isPresent()) return Response.status(NOT_FOUND).build();
+        if (!possibleClient.isPresent()){
+            return Response.status(NOT_FOUND).build();
+        }
         ClientDto clientDto = toDto(possibleClient.get());
 
         return Response.ok(clientDto).build();

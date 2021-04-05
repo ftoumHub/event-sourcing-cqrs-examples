@@ -11,6 +11,7 @@ public class InMemoryClientsRepository implements ClientRepository {
 
     @Override
     public void save(ClientProjection clientProjection) {
+        // Contrainte d'unicité à implémenter sur l'email
         clientProjections.merge(
                 clientProjection.getClientId(), // key
                 clientProjection, // value
